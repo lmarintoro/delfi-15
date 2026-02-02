@@ -876,6 +876,20 @@
             align-items: center;
         }
 
+        /* Sección final - Agradecimiento */
+        .section-final {
+            min-height: 50vh;
+        }
+
+        .final-thanks {
+            font-family: 'Great Vibes', cursive;
+            color: #d4af37;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 0 20px;
+        }
+
         /* Responsive ajustes */
         @media (max-width: 768px) {
             .section-1 .name {
@@ -1101,8 +1115,6 @@
                 </div>
             </div>
             
-            <p class="modal-thanks">¡Gracias por ser parte de este día especial! 💖</p>
-            
             <div class="copy-toast" id="copyToast">¡Copiado!</div>
         </div>
     </div>
@@ -1120,6 +1132,12 @@
             </svg>
             Confirmar por WhatsApp
         </button>
+    </section>
+
+    <!-- Sección final - Agradecimiento -->
+    <section class="section-final velvet-bg">
+        <div class="sparkles" id="sparklesFinal"></div>
+        <p class="final-thanks fade-in">¡Gracias por ser parte de este día especial! 💖</p>
     </section>
 
     <!-- Modal de confirmación -->
