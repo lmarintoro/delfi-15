@@ -878,7 +878,12 @@
 
         /* Sección final - Agradecimiento */
         .section-final {
-            min-height: 50vh;
+            min-height: 100vh;
+        }
+
+        .section-final .final-thanks {
+            position: relative;
+            z-index: 2;
         }
 
         .final-thanks {
@@ -1137,6 +1142,7 @@
     <!-- Sección final - Agradecimiento -->
     <section class="section-final velvet-bg">
         <div class="sparkles" id="sparklesFinal"></div>
+        <div class="floating-photos-container" id="floatingPhotosFinal"></div>
         <p class="final-thanks fade-in">¡Gracias por ser parte de este día especial! 💖</p>
     </section>
 
@@ -1329,9 +1335,10 @@
             return { top, left };
         }
 
-        // Función para crear fotos flotantes
-        function createFloatingPhotos() {
-            const container = document.getElementById('floatingPhotos');
+        // Función para crear fotos flotantes en un contenedor
+        function createFloatingPhotosInContainer(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
             container.innerHTML = '';
             const randomPhotos = getRandomPhotos(8);
             
@@ -1352,6 +1359,12 @@
                 
                 container.appendChild(img);
             });
+        }
+
+        // Función para crear fotos flotantes en ambas secciones
+        function createFloatingPhotos() {
+            createFloatingPhotosInContainer('floatingPhotos');
+            createFloatingPhotosInContainer('floatingPhotosFinal');
         }
 
         // Cambiar fotos cada cierto tiempo
