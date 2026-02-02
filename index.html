@@ -821,6 +821,90 @@
             transform: translateY(0);
         }
 
+        /* Fotos flotantes */
+        .floating-photos-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-photo {
+            position: absolute;
+            width: clamp(80px, 15vw, 120px);
+            height: clamp(80px, 15vw, 120px);
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #d4af37;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0);
+            animation: floatPhoto 8s ease-in-out infinite;
+        }
+
+        .floating-photo.photo-1 {
+            top: 8%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-photo.photo-2 {
+            top: 5%;
+            right: 5%;
+            animation-delay: 2s;
+        }
+
+        .floating-photo.photo-3 {
+            bottom: 18%;
+            left: 8%;
+            animation-delay: 4s;
+        }
+
+        .floating-photo.photo-4 {
+            bottom: 15%;
+            right: 8%;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatPhoto {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-10deg);
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            45% {
+                opacity: 1;
+                transform: scale(1.05) rotate(3deg) translateY(-5px);
+            }
+            55% {
+                opacity: 1;
+                transform: scale(1) rotate(-3deg) translateY(5px);
+            }
+            90% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(10deg);
+            }
+        }
+
+        .section-1 .title-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         /* Responsive ajustes */
         @media (max-width: 768px) {
             .section-1 .name {
@@ -829,6 +913,31 @@
             
             .scroll-indicator {
                 bottom: 20px;
+            }
+
+            .floating-photo {
+                width: clamp(60px, 18vw, 90px);
+                height: clamp(60px, 18vw, 90px);
+            }
+
+            .floating-photo.photo-1 {
+                top: 5%;
+                left: 3%;
+            }
+
+            .floating-photo.photo-2 {
+                top: 3%;
+                right: 3%;
+            }
+
+            .floating-photo.photo-3 {
+                bottom: 20%;
+                left: 3%;
+            }
+
+            .floating-photo.photo-4 {
+                bottom: 18%;
+                right: 3%;
             }
         }
     </style>
@@ -886,8 +995,11 @@
     <!-- Sección 1: Portada -->
     <section class="section-1 velvet-bg">
         <div class="sparkles" id="sparkles1"></div>
-        <h1 class="title-gold number fade-in">15</h1>
-        <h2 class="title-gold name fade-in">Delfi</h2>
+        <div class="floating-photos-container" id="floatingPhotos"></div>
+        <div class="title-content">
+            <h1 class="title-gold number fade-in">15</h1>
+            <h2 class="title-gold name fade-in">Delfi</h2>
+        </div>
         <div class="scroll-indicator">
             <svg viewBox="0 0 24 24">
                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
@@ -1189,6 +1301,64 @@
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
 
+        // Lista de fotos disponibles
+        const allPhotos = [
+            'imagenes/1.jpg',
+            'imagenes/2.jpg',
+            'imagenes/3.jpg',
+            'imagenes/4.jpg',
+            'imagenes/5.jpg',
+            'imagenes/FB_IMG_1667228287167.jpg',
+            'imagenes/FB_IMG_1667228324869.jpg',
+            'imagenes/FB_IMG_1667228345406.jpg',
+            'imagenes/FB_IMG_1667228407382.jpg',
+            'imagenes/IMG-20190822-WA0003.jpg',
+            'imagenes/IMG-20190828-WA0004.jpg',
+            'imagenes/IMG-20200222-WA0009.jpg',
+            'imagenes/IMG-20220509-WA0041.jpeg',
+            'imagenes/IMG-20221017-WA0043.jpg',
+            'imagenes/IMG-20230401-WA0030.jpg',
+            'imagenes/IMG-20230401-WA0035.jpg',
+            'imagenes/IMG-20231230-WA0015.jpg',
+            'imagenes/IMG-20250413-WA0001.jpg',
+            'imagenes/IMG-20260201-WA0037.jpg',
+            'imagenes/IMG-20260201-WA0038.jpg',
+            'imagenes/IMG-20260201-WA0039.jpg',
+            'imagenes/IMG-20260201-WA0040.jpg',
+            'imagenes/IMG_20170324_180407481.jpg',
+            'imagenes/IMG_20181005_120702490.jpg',
+            'imagenes/IMG_20181218_201535980.jpg',
+            'imagenes/IMG_20240803_222446329_BURST000_COVER.jpg'
+        ];
+
+        // Función para seleccionar fotos aleatorias
+        function getRandomPhotos(count) {
+            const shuffled = [...allPhotos].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+        }
+
+        // Función para crear fotos flotantes
+        function createFloatingPhotos() {
+            const container = document.getElementById('floatingPhotos');
+            container.innerHTML = '';
+            const randomPhotos = getRandomPhotos(4);
+            
+            randomPhotos.forEach((photo, index) => {
+                const img = document.createElement('img');
+                img.src = photo;
+                img.className = `floating-photo photo-${index + 1}`;
+                img.alt = 'Foto de Delfi';
+                container.appendChild(img);
+            });
+        }
+
+        // Cambiar fotos cada cierto tiempo
+        function rotatePhotos() {
+            setInterval(() => {
+                createFloatingPhotos();
+            }, 16000); // Cambiar fotos cada 16 segundos (2 ciclos de animación)
+        }
+
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
             createSparkles();
@@ -1198,6 +1368,10 @@
             // Iniciar cuenta regresiva
             updateCountdown();
             setInterval(updateCountdown, 1000);
+            
+            // Crear fotos flotantes y rotarlas
+            createFloatingPhotos();
+            rotatePhotos();
         });
 
         // Modal de regalo
