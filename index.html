@@ -1292,12 +1292,16 @@
 
         // Posiciones posibles para las fotos (más cerca del centro)
         function getRandomPosition(index, total) {
-            // Definir zonas: arriba-izq, arriba-der, abajo-izq, abajo-der
+            // Definir 8 zonas alrededor del texto
             const zones = [
-                { top: [5, 25], left: [5, 30] },      // arriba izquierda
-                { top: [5, 25], left: [70, 95] },     // arriba derecha
-                { top: [60, 80], left: [5, 30] },     // abajo izquierda
-                { top: [60, 80], left: [70, 95] }     // abajo derecha
+                { top: [3, 18], left: [5, 25] },       // arriba izquierda
+                { top: [3, 18], left: [38, 62] },     // arriba centro
+                { top: [3, 18], left: [75, 95] },     // arriba derecha
+                { top: [35, 50], left: [3, 18] },     // medio izquierda
+                { top: [35, 50], left: [82, 97] },    // medio derecha
+                { top: [65, 82], left: [5, 25] },     // abajo izquierda
+                { top: [65, 82], left: [38, 62] },    // abajo centro
+                { top: [65, 82], left: [75, 95] }     // abajo derecha
             ];
             
             const zone = zones[index % zones.length];
@@ -1311,7 +1315,7 @@
         function createFloatingPhotos() {
             const container = document.getElementById('floatingPhotos');
             container.innerHTML = '';
-            const randomPhotos = getRandomPhotos(4);
+            const randomPhotos = getRandomPhotos(8);
             
             randomPhotos.forEach((photo, index) => {
                 const img = document.createElement('img');
@@ -1325,7 +1329,7 @@
                 img.style.left = pos.left + '%';
                 
                 // Delay aleatorio para que no aparezcan todas juntas
-                const delay = index * 1.5 + Math.random() * 0.5;
+                const delay = index * 0.8 + Math.random() * 0.4;
                 img.style.animation = `floatPhotoIn 6s ease-in-out ${delay}s infinite`;
                 
                 container.appendChild(img);
